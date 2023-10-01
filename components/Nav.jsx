@@ -7,6 +7,18 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 const Nav = () => {
   const isUserLoggedIn = true;
+
+  const [providers, setProviders] = useState(null);
+
+  useEffect(() => {
+    const setProviders = async () => {
+      const res = await getProviders();
+
+      setProviders(res);
+    };
+    setProviders();
+  }, []);
+
   return (
     <nav className="flex-between w-full mb-16 pt-3">
       <Link href="/" className="flex gap-2 flex-center">
@@ -20,6 +32,7 @@ const Nav = () => {
         <p className="logo_text">Promptopia</p>
       </Link>
 
+      {/* Desktop Nav */}
       <div className="sm:flex hidden">
         {isUserLoggedIn ? (
           <div className="flex gap-3 md:gap-5">
@@ -32,7 +45,7 @@ const Nav = () => {
             </button>
             <Link href="/profile">
               <Image
-                src="/assets/images/profile.svg"
+                src="/assets/images/logo.svg"
                 width={37}
                 height={37}
                 className="rounded-full"
@@ -41,7 +54,45 @@ const Nav = () => {
             </Link>
           </div>
         ) : (
-          <></>
+          <>
+            {providers &&
+              Object.values(providers).map((provider) => (
+                <button
+                  type="button"
+                  key={provider.name}
+                  onClick={() => signIn(provider.id)}
+                  className="black_btn"
+                ></button>
+              ))}
+          </>
+        )}
+      </div>
+
+      {/* Mobile Nav */}
+      <div className="sm:hidden flex  relative">
+        {isUserLoggedIn ? (
+          <div className="flex">
+            <Image
+              src="/assets/images/logo.svg"
+              width={37}
+              height={37}
+              className="rounded-full"
+              alt="profile"
+              onClick={() => {}}
+            />
+          </div>
+        ) : (
+          <>
+            {providers &&
+              Object.values(providers).map((provider) => (
+                <button
+                  type="button"
+                  key={provider.name}
+                  onClick={() => signIn(provider.id)}
+                  className="black_btn"
+                ></button>
+              ))}
+          </>
         )}
       </div>
     </nav>
