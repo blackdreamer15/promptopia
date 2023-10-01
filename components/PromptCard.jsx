@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import User from "@models/user";
+// import User from "@models/user";
 
 const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   const [copied, setCopied] = useState("");
 
   const { data: session } = useSession();
   const pathName = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleCopy = () => {
     setCopied(post.prompt);
