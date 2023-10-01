@@ -36,3 +36,13 @@ export const PATCH = async (req, { params }) => {
 }
 
 
+export const DELETE = async (req, { params }) => {
+    try {
+        await connectToDB();
+        await Prompt.findById(params.id).remove();
+
+        return new Response("Prompt deleted successfully", { status: 200 })
+    } catch (error) {
+        return new Response("Failed to delete the prompt", { status: 500 })
+    }
+}
